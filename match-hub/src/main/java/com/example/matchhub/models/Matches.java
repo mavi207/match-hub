@@ -33,4 +33,7 @@ public class Matches {
     @Column(name = "match_status",nullable = false)
     @Enumerated(value = EnumType.STRING)
     MatchStatus matchStatus;
+
+    @ManyToOne
+    Player playerOfMatch;
 }

@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -45,4 +46,8 @@ public class Player {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     Country country;
+
+    @OneToMany(mappedBy = "playerOfMatch" ,cascade = CascadeType.ALL)
+    List<Matches> playerOfTheMatchesList;
+
 }
