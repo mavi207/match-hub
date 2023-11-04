@@ -22,7 +22,7 @@ public class Team {
     int id;
 
     @Column(name = "team_name",nullable = false,unique = true)
-    String teamName;
+    String teamName;//This  attribute identifies the team record uniquely (unique = true)
 
     @Column(name = "fixed_team_size")
     int fixedTeamSize;
