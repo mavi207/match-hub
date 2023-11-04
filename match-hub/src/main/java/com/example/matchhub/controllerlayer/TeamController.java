@@ -1,7 +1,7 @@
 package com.example.matchhub.controllerlayer;
 
-import com.example.matchhub.dtos.requestdtos.PlayersRequest;
-import com.example.matchhub.servicelayer.PlayerService;
+import com.example.matchhub.dtos.requestdtos.TeamRequest;
+import com.example.matchhub.servicelayer.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/player")
-public class PlayerController {
-    private final PlayerService playerService;
+@RequestMapping("/team")
+public class TeamController {
+    private final TeamService teamService;
 
-    public PlayerController(PlayerService playerService) {
-        this.playerService = playerService;
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
     }//Constructor Injection
 
-    //Method 1: addTeam
     @PostMapping("/addDetails")
-    public ResponseEntity addDetailsOfPlayer(@RequestBody List<PlayersRequest> playersRequestList){
+    public ResponseEntity addDetailsOfTeam(@RequestBody TeamRequest teamRequest){
         try{
-            String message = playerService.addDetailsOfPlayer(playersRequestList);
-            return new ResponseEntity(message, HttpStatus.CREATED);
+            return new ResponseEntity(teamService.addDetailsOfTeam(teamRequest), HttpStatus.CREATED);
         }
         catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+
     }
 }

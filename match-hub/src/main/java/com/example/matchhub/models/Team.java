@@ -25,7 +25,7 @@ public class Team {
     String teamName;//This  attribute identifies the team record uniquely (unique = true)
 
     @Column(name = "fixed_team_size")
-    int fixedTeamSize;
+    int fixedTeamSize;// team size is fixed it is hardCoded
 
     @OneToOne
     Player captain;
