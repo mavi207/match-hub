@@ -1,6 +1,7 @@
 package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.VenueRequest;
+import com.example.matchhub.exceptions.CapacityIsLessException;
 import com.example.matchhub.exceptions.TeamAlreadyPresentException;
 import com.example.matchhub.exceptions.VenueAlreadyPresentException;
 import com.example.matchhub.models.Team;
@@ -23,6 +24,9 @@ public class VenueServiceImpl implements VenueService {
 
     public String addDetailsOfVenue(VenueRequest venueRequest) {
         Venue venue = venueRequestToVenue(venueRequest);
+        if(venue.getCapacity()<10000){
+            throw new CapacityIsLessException("Venue's capacity is less than 10000");
+        }
         Optional<Venue> venueOptional=venueRepository.findByLocationUrl(venue.getLocationUrl());
         if(!venueOptional.isPresent()){
             Venue savedVenue=venueRepository.save(venue);

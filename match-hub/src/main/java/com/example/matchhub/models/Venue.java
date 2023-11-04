@@ -1,6 +1,7 @@
 package com.example.matchhub.models;
 
 import com.example.matchhub.enums.Country;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -38,7 +39,6 @@ public class Venue {
     Country country;
 
     @Column(name = "capacity", nullable = false)
-    @Size(min = 100, message = "The venue capacity must be at least 100 to conduct the match")
     int capacity;
 
     @Column(name = "is_flood_light" , nullable = false)
