@@ -8,6 +8,7 @@ import com.example.matchhub.models.Player;
 import com.example.matchhub.models.Team;
 import com.example.matchhub.repositorylayer.TeamRepository;
 import com.example.matchhub.servicelayer.TeamService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static com.example.matchhub.transformers.PlayerTransformer.playerRequestToPlayer;
 import static com.example.matchhub.transformers.TeamTransformer.teamRequestToTeam;
 
+@Service
 public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
