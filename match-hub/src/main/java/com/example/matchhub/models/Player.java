@@ -50,4 +50,6 @@ public class Player {
     @OneToMany(mappedBy = "playerOfMatch" ,cascade = CascadeType.ALL)
     List<Matches> playerOfTheMatchesList;
 
+    @ManyToOne
+    Team team;
 }

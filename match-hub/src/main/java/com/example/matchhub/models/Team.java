@@ -39,4 +39,6 @@ public class Team {
     @Column(name = "number_of_matches_played")
     int numberOfMatchesPlayed;
 
+    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
+    List<Player>playerList;
 }
