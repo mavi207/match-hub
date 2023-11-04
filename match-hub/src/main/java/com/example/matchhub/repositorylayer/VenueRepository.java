@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface VenueRepository extends JpaRepository<Venue,Integer> {
     Optional<Venue> findByLocationUrl(URL locationUrl);
+
+    Optional<Venue> findByVenueName(String venueName);
 }

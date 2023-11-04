@@ -25,7 +25,7 @@ public class Venue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "venue_name",nullable = false)
+    @Column(name = "venue_name",nullable = false,unique = true)
     String venueName;
 
     @Column(name = "city",nullable = false)
