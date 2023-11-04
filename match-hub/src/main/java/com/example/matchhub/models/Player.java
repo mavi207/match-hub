@@ -41,7 +41,7 @@ public class Player {
     double weight;
 
     @Column(nullable = false)
-    int numberOfMatchPlayed;
+    int numberOfMatchPlayed;// initially it will be zero, assuming the player is starting his career
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
