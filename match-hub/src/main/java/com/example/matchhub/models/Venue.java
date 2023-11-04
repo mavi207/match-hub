@@ -37,8 +37,8 @@ public class Venue {
     @Enumerated(value = EnumType.STRING)
     Country country;
 
-    @Column(name = "capacity" , nullable = false)
-    @Size(min = 100) //Assuming minimum capacity of the venue to be 100 to conduct the match
+    @Column(name = "capacity", nullable = false)
+    @Size(min = 100, message = "The venue capacity must be at least 100 to conduct the match")
     int capacity;
 
     @Column(name = "is_flood_light" , nullable = false)
