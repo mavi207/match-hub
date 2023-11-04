@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -36,6 +37,9 @@ public class Matches {
 
     @ManyToOne
     Player playerOfMatch;
+
+    @ManyToMany
+    List<Team> teamList;//fixed size of 2
 
     @ManyToOne
     Venue venue;

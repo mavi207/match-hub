@@ -41,4 +41,7 @@ public class Team {
 
     @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
     List<Player>playerList;
+
+    @ManyToMany(mappedBy = "teamList",cascade = CascadeType.ALL)
+    List<Matches> matchList;
 }
