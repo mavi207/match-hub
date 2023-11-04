@@ -36,4 +36,7 @@ public class Matches {
 
     @ManyToOne
     Player playerOfMatch;
+
+    @ManyToOne
+    Venue venue;
 }

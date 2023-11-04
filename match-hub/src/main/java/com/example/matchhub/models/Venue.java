@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.net.URL;
+import java.util.List;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -46,4 +47,6 @@ public class Venue {
     @Column(name = "location_url" , nullable = false, unique = true)
     URL locationUrl; //This  attribute identifies the venue record uniquely (unique = true)
 
+    @OneToMany(mappedBy = "venue",cascade = CascadeType.ALL)
+    List<Matches> matchList;
 }
