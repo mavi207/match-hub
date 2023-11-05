@@ -57,10 +57,9 @@ public class PlayerServiceImpl implements PlayerService {
         if(!optionalPlayer.isPresent()){
             throw new EmailIdIsNotPresent(email+" email is not present!");
         }
-        if(optionalPlayer.get().getPlayerName()!=playerName){
-            throw new PlayerIsNotPresent(playerName+" player is not present!");
+        if (!optionalPlayer.isPresent() || !optionalPlayer.get().getPlayerName().equals(playerName)) {
+            throw new PlayerIsNotPresent(playerName + " is invalid name!");
         }
-
         Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
         if(!optionalTeam.isPresent()){
             throw new TeamIsNotPresentException(teamName+" team is not present!");
@@ -69,8 +68,21 @@ public class PlayerServiceImpl implements PlayerService {
             throw new TeamIsFullException(teamName+" team is full.");
         }
 
-        TeamUtility.setPlayerTeam(optionalTeam.get(),optionalPlayer.get());
+        if(optionalTeam.get().getPlayerList().contains(optionalPlayer.get())){
+            throw new PlayerAlreadyPresentException(playerName+" player is already present in "+teamName+" team");
+        }
 
-        return playerName+" is successfully added in "+teamName+" team.";
+        // Set the player's team
+        Player player = optionalPlayer.get();
+        Team team = optionalTeam.get();
+
+        // Make the association bidirectional
+        TeamUtility.setPlayerTeam(team, player);
+
+        // Save both player and team entities to update the database
+        playerRepository.save(player);
+        teamRepository.save(team);
+
+        return playerName + " is successfully added to " + teamName + " team.";
     }
 }
