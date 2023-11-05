@@ -15,7 +15,7 @@ import java.util.List;
 public class MatchRequest {
     LocalDate dateOfMatch;
 
-    LocalTime timeOfMatch;
+    String timeOfMatch;
 
     String team1;
 
