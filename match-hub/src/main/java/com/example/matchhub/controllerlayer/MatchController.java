@@ -37,4 +37,14 @@ public class MatchController {
         List<MatchResponse> matchResponseList = matchService.matchOnDate(date);
         return new ResponseEntity(matchResponseList,HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/getmatchdetail")
+    public ResponseEntity getMatchDetails(@RequestParam("matchid") int id){
+        try{
+            return new ResponseEntity(matchService.getMatchDetails(id),HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }

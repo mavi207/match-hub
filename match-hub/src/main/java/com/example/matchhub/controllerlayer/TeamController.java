@@ -28,7 +28,7 @@ public class TeamController {
     @PutMapping("/setTeamCaptain")
     public ResponseEntity setTeamCaptain(@RequestParam("playerName") String playerName,@RequestParam("playerEmail") String playerEmail,@RequestParam("teamName") String teamName){
         try{
-            return new ResponseEntity(teamServiceimpl.setTeamCaptain(playerName,playerEmail,teamName), HttpStatus.CREATED);
+            return new ResponseEntity(teamServiceimpl.setTeamCaptain(playerName,playerEmail,teamName), HttpStatus.ACCEPTED);
         }
         catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);

@@ -1,6 +1,7 @@
 package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
+import com.example.matchhub.dtos.responsedtos.MatchDetailResponse;
 import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.exceptions.*;
 import com.example.matchhub.models.Matches;
@@ -16,12 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.matchhub.transformers.MatchTransformer.matchRequestToMatch;
-import static com.example.matchhub.transformers.MatchTransformer.matchToMatchResponse;
+import static com.example.matchhub.transformers.MatchTransformer.*;
 
 @Service
 public class MatchServiceImpl implements MatchService {
@@ -100,5 +99,14 @@ public class MatchServiceImpl implements MatchService {
         }
 
         return matchResponseList;
+    }
+
+    public MatchDetailResponse getMatchDetails(int id) {
+        Optional<Matches> optionalMatches = matchRepository.findById(id);
+        if(!optionalMatches.isPresent()){
+            throw new MatchIsNotAvailable(id+" match id is invalid");
+        }
+        MatchDetailResponse matchDetailResponse = matchToMatchDetailResponse(optionalMatches.get());
+        return matchDetailResponse;
     }
 }

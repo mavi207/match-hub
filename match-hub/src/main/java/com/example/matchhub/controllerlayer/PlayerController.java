@@ -33,7 +33,7 @@ public class PlayerController {
     public ResponseEntity setPlayerTeam(@RequestParam("email") String Email,@RequestParam("name") String playerName,@RequestParam("team") String teamName){
         try{
             String message = playerServiceimpl.setPlayerTeam(Email,playerName,teamName);
-            return new ResponseEntity(message, HttpStatus.CREATED);
+            return new ResponseEntity(message, HttpStatus.ACCEPTED);
         }
         catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
