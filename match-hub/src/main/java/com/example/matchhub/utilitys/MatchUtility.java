@@ -1,6 +1,7 @@
 package com.example.matchhub.utilitys;
 
 import com.example.matchhub.models.Matches;
+import com.example.matchhub.models.Player;
 import com.example.matchhub.models.Team;
 import com.example.matchhub.models.Venue;
 
@@ -11,4 +12,9 @@ public class MatchUtility {
         matches.setVenue(venue);
         return matches;
     }
+
+//    public static Matches setPlayerOfMatch(Matches matches,Player player){
+//       matches.setPlayerOfMatch(player);
+//       player.
+//    }
 }

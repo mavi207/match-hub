@@ -1,5 +1,6 @@
 package com.example.matchhub.controllerlayer;
 
+import com.example.matchhub.dtos.requestdtos.MatchCompletedRequest;
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
 import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.servicelayer.MatchService;
@@ -42,6 +43,16 @@ public class MatchController {
     public ResponseEntity getMatchDetails(@RequestParam("matchid") int id){
         try{
             return new ResponseEntity(matchService.getMatchDetails(id),HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/completematch")
+    public ResponseEntity completeMatch(@RequestBody MatchCompletedRequest matchCompletedRequest){
+        try{
+            return new ResponseEntity(matchService.completeMatch(matchCompletedRequest),HttpStatus.ACCEPTED);
         }
         catch(Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);

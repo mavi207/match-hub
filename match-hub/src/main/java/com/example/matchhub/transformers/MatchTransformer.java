@@ -5,12 +5,9 @@ import com.example.matchhub.dtos.responsedtos.MatchDetailResponse;
 import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.enums.MatchStatus;
 import com.example.matchhub.models.Matches;
-import com.example.matchhub.models.Player;
-import com.example.matchhub.models.Team;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.matchhub.utilitys.PlayerUtility.PlayerListToPlayerNameList;
 
