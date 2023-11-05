@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.matchhub.transformers.MatchTransformer.*;
-import static com.example.matchhub.utilitys.MatchUtility.setPlayerOfMatch;
 
 @Service
 public class MatchServiceImpl implements MatchService {

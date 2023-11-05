@@ -34,4 +34,14 @@ public class TeamController {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getnumberwinandlost")
+    public ResponseEntity getNumberOfWinAndLost(@RequestParam("/teamname") String teamName){
+        try{
+            return new ResponseEntity(teamServiceimpl.getNumberOfWinAndLost(teamName),HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -1,9 +1,13 @@
 package com.example.matchhub.servicelayer;
 
 import com.example.matchhub.dtos.requestdtos.TeamRequest;
+import com.example.matchhub.dtos.responsedtos.TeamResponse;
+import org.springframework.http.HttpStatusCode;
 
 public interface TeamService {
-    Object addDetailsOfTeam(TeamRequest teamRequest);
+    String addDetailsOfTeam(TeamRequest teamRequest);
 
-    Object setTeamCaptain(String playerName,String playerEmail,String teamName);
+    String setTeamCaptain(String playerName,String playerEmail,String teamName);
+
+    TeamResponse getNumberOfWinAndLost(String teamName);
 }

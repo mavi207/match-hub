@@ -1,6 +1,7 @@
 package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.TeamRequest;
+import com.example.matchhub.dtos.responsedtos.TeamResponse;
 import com.example.matchhub.exceptions.PlayerIsNotPresent;
 import com.example.matchhub.exceptions.TeamAlreadyPresentException;
 import com.example.matchhub.exceptions.TeamIsNotPresentException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.example.matchhub.transformers.TeamTransformer.teamRequestToTeam;
+import static com.example.matchhub.transformers.TeamTransformer.teamToTeamResponse;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -26,7 +28,7 @@ public class TeamServiceImpl implements TeamService {
         this.playerRepository = playerRepository;
     }
 
-    public Object addDetailsOfTeam(TeamRequest teamRequest) {
+    public String addDetailsOfTeam(TeamRequest teamRequest) {
         Team team= teamRequestToTeam(teamRequest);
         Optional<Team>teamOptional=teamRepository.findByTeamName(team.getTeamName());
         if(!teamOptional.isPresent()){
@@ -58,5 +60,17 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.save(team);
 
         return playerName + " is set as the captain of " + teamName + " team.";
+    }
+
+
+    public TeamResponse getNumberOfWinAndLost(String teamName) {
+        Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
+
+        if(!optionalTeam.isPresent()){
+            throw new TeamIsNotPresentException(teamName+" team is not available!");
+        }
+
+        TeamResponse teamResponse = teamToTeamResponse(optionalTeam.get());
+        return teamResponse;
     }
 }
