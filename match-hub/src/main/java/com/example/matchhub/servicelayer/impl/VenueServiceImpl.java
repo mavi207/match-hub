@@ -2,9 +2,7 @@ package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.VenueRequest;
 import com.example.matchhub.exceptions.CapacityIsLessException;
-import com.example.matchhub.exceptions.TeamAlreadyPresentException;
 import com.example.matchhub.exceptions.VenueAlreadyPresentException;
-import com.example.matchhub.models.Team;
 import com.example.matchhub.models.Venue;
 import com.example.matchhub.repositorylayer.VenueRepository;
 import com.example.matchhub.servicelayer.VenueService;

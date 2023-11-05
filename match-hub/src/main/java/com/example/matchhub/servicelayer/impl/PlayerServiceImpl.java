@@ -1,10 +1,13 @@
 package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.PlayersRequest;
-import com.example.matchhub.exceptions.PlayerAlreadyPresentException;
+import com.example.matchhub.exceptions.*;
 import com.example.matchhub.models.Player;
+import com.example.matchhub.models.Team;
 import com.example.matchhub.repositorylayer.PlayerRepository;
+import com.example.matchhub.repositorylayer.TeamRepository;
 import com.example.matchhub.servicelayer.PlayerService;
+import com.example.matchhub.utilitys.TeamUtility;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +21,11 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
 
-    public PlayerServiceImpl(PlayerRepository playerRepository) {
+    private final TeamRepository teamRepository;
+
+    public PlayerServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository) {
         this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
     }//Constructor Injection
 
 
@@ -43,5 +49,28 @@ public class PlayerServiceImpl implements PlayerService {
         }else {
             return "Players are added successfully to database";
         }
+    }
+
+
+    public String setPlayerTeam(String email, String playerName, String teamName) {
+        Optional<Player> optionalPlayer = playerRepository.findByEmail(email);
+        if(!optionalPlayer.isPresent()){
+            throw new EmailIdIsNotPresent(email+" email is not present!");
+        }
+        if(optionalPlayer.get().getPlayerName()!=playerName){
+            throw new PlayerIsNotPresent(playerName+" player is not present!");
+        }
+
+        Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
+        if(!optionalTeam.isPresent()){
+            throw new TeamIsNotPresentException(teamName+" team is not present!");
+        }
+        if(optionalTeam.get().getPlayerList().size()>=optionalTeam.get().getFixedTeamSize()){
+            throw new TeamIsFullException(teamName+" team is full.");
+        }
+
+        TeamUtility.setPlayerTeam(optionalTeam.get(),optionalPlayer.get());
+
+        return playerName+" is successfully added in "+teamName+" team.";
     }
 }
