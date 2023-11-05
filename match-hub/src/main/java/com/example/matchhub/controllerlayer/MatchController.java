@@ -1,13 +1,14 @@
 package com.example.matchhub.controllerlayer;
 
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
+import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.servicelayer.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/match")
@@ -20,7 +21,7 @@ public class MatchController {
         this.matchService = matchService;
     }
 
-    @PostMapping("/addMatching")
+    @PostMapping("/addmatch")
     public ResponseEntity addMatching(@RequestBody MatchRequest matchRequest){
         try {
             String message = matchService.addMatching(matchRequest);
@@ -29,5 +30,11 @@ public class MatchController {
         catch (Exception e){
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/matchondate")
+    public ResponseEntity matchOnDate(@RequestParam("date") LocalDate date){
+        List<MatchResponse> matchResponseList = matchService.matchOnDate(date);
+        return new ResponseEntity(matchResponseList,HttpStatus.ACCEPTED);
     }
 }

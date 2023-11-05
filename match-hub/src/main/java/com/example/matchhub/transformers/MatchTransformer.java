@@ -1,6 +1,7 @@
 package com.example.matchhub.transformers;
 
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
+import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.enums.MatchStatus;
 import com.example.matchhub.models.Matches;
 
@@ -15,5 +16,17 @@ public class MatchTransformer {
         matches.setMatchStatus(MatchStatus.UPCOMING);
         matches.setTeamList(new ArrayList<>(2));
         return matches;
+    }
+
+    public static MatchResponse matchToMatchResponse(Matches matches){
+        return MatchResponse.builder()
+                .id(matches.getId())
+                .dateOfMatch(String.valueOf(matches.getDateOfMatch()))
+                .timeOfMatch(String.valueOf(matches.getTimeOfMatch()))
+                .matchStatus(String.valueOf(matches.getMatchStatus()))
+                .team1(String.valueOf(matches.getTeamList().get(0)))
+                .team2(String.valueOf(matches.getTeamList().get(1)))
+                .venue(String.valueOf(matches.getVenue()))
+                .build();
     }
 }

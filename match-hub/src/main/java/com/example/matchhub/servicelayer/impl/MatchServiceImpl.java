@@ -1,6 +1,7 @@
 package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
+import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.exceptions.*;
 import com.example.matchhub.models.Matches;
 import com.example.matchhub.models.Team;
@@ -13,10 +14,14 @@ import com.example.matchhub.utilitys.MatchUtility;
 import com.example.matchhub.utilitys.TeamUtility;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static com.example.matchhub.transformers.MatchTransformer.matchRequestToMatch;
+import static com.example.matchhub.transformers.MatchTransformer.matchToMatchResponse;
 
 @Service
 public class MatchServiceImpl implements MatchService {
@@ -83,5 +88,17 @@ public class MatchServiceImpl implements MatchService {
         optionalVenue.get().getMatchList().add(savedMatch);
 
         return "Match " + matchRequest.getTeam1() + " and " + matchRequest.getTeam2() + " is scheduled";
+    }
+
+
+    public List<MatchResponse> matchOnDate(LocalDate date) {
+        List<Matches> matchesList = matchRepository.findByDateOfMatch(date);
+
+        List<MatchResponse> matchResponseList=new ArrayList<>();
+        for(Matches matches: matchesList){
+            matchResponseList.add(matchToMatchResponse(matches));
+        }
+
+        return matchResponseList;
     }
 }

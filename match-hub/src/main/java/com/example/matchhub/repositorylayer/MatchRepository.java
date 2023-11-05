@@ -15,4 +15,6 @@ public interface MatchRepository extends JpaRepository<Matches,Integer> {
     Optional<Matches> findByDateOfMatchAndTimeOfMatchAndVenue(LocalDate dateOfMatch, LocalTime timeOfMatch, Venue venue);
 
     List<Matches> findByDateOfMatchAndTimeOfMatch(LocalDate dateOfMatch, LocalTime timeOfMatch);
+
+    List<Matches> findByDateOfMatch(LocalDate dateOfMatch);
 }
