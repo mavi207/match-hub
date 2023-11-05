@@ -31,51 +31,57 @@ public class MatchServiceImpl implements MatchService {
         this.teamRepository = teamRepository;
         this.venueRepository = venueRepository;
     }
-
     public String addMatching(MatchRequest matchRequest) {
         Matches matches = matchRequestToMatch(matchRequest);
-        Optional<Team> optionalTeam1= teamRepository.findByTeamName(matchRequest.getTeam1());
-        Optional<Team> optionalTeam2= teamRepository.findByTeamName(matchRequest.getTeam2());
+        Optional<Team> optionalTeam1 = teamRepository.findByTeamName(matchRequest.getTeam1());
+        Optional<Team> optionalTeam2 = teamRepository.findByTeamName(matchRequest.getTeam2());
         Optional<Venue> optionalVenue = venueRepository.findByVenueName(matchRequest.getVenue());
 
-        if(!(optionalTeam1.isPresent()||optionalTeam2.isPresent())){
-            throw  new TeamIsNotPresentException(matchRequest.getTeam1()+" or "+matchRequest.getTeam2()+" is not present in databases");
+        if (!optionalTeam1.isPresent() || !optionalTeam2.isPresent()) {
+            throw new TeamIsNotPresentException(matchRequest.getTeam1() + " or " + matchRequest.getTeam2() + " is not present in databases");
         }
 
-        if(!(optionalVenue.isPresent())){
-            throw new VenueIsNotPresentException(matchRequest.getVenue()+" venue is not present.");
+        if (!optionalVenue.isPresent()) {
+            throw new VenueIsNotPresentException(matchRequest.getVenue() + " venue is not present.");
         }
 
-        if(optionalTeam1==optionalTeam2) throw new SameTeamMatchException("Match between same team cannot be scheduled");
-
-        if(optionalTeam1.get().getCaptain()==null||optionalTeam2.get().getCaptain()==null){
-            throw new CaptainNotSetException("One of team's captain is not set");
+        if (optionalTeam1.get() == optionalTeam2.get()) {
+            throw new SameTeamMatchException("Match between the same team cannot be scheduled");
         }
 
-        Optional<Matches> optionalMatches = matchRepository.findByDateOfMatchAndTimeOfMatchAndVenue(matches.getDateOfMatch(),matches.getTimeOfMatch(),matches.getVenue());
-
-        if(optionalMatches.isPresent()){
-            throw new MatchIsPresentException("Another match is already present at given date "+matches.getDateOfMatch()+" and time "+matches.getTimeOfMatch()+" at this venue "+matches.getVenue());
+        if (optionalTeam1.get().getCaptain() == null || optionalTeam2.get().getCaptain() == null) {
+            throw new CaptainNotSetException("One of the team's captain is not set");
         }
 
-        List<Matches> optionalMatches1 = matchRepository.findByDateOfMatchAndTimeOfMatch(matches.getDateOfMatch(),matches.getTimeOfMatch());
+        Optional<Matches> existingMatch = matchRepository.findByDateOfMatchAndTimeOfMatchAndVenue(
+                matches.getDateOfMatch(), matches.getTimeOfMatch(), matches.getVenue());
 
-        for(Matches matches1 : optionalMatches1){
-            if(matches1.getTeamList().contains(matchRequest.getTeam1())){
-                throw new TeamIsAlreadyPlayingException(matchRequest.getTeam1()+" is already playing at this "+matchRequest.getDateOfMatch()+" "+matchRequest.getTimeOfMatch());
+        if (existingMatch.isPresent()) {
+            throw new MatchIsPresentException("Another match is already scheduled at the given date " +
+                    matches.getDateOfMatch() + " and time " + matches.getTimeOfMatch() + " at this venue " + matches.getVenue());
+        }
+
+        // Check if either of the teams is already playing at the specified date and time
+        List<Matches> matchesAtSameDateTime = matchRepository.findByDateOfMatchAndTimeOfMatch(
+                matches.getDateOfMatch(), matches.getTimeOfMatch());
+
+        for (Matches match : matchesAtSameDateTime) {
+            if (match.getTeamList().contains(optionalTeam1.get()) || match.getTeamList().contains(optionalTeam2.get())) {
+                throw new TeamIsAlreadyPlayingException(matchRequest.getTeam1() + " or " + matchRequest.getTeam2() +
+                        " is already playing at this " + matchRequest.getDateOfMatch() + " " + matchRequest.getTimeOfMatch());
             }
-            if(matches1.getTeamList().contains(matchRequest.getTeam2())){
-                throw new TeamIsAlreadyPlayingException(matchRequest.getTeam2()+" is already playing at this "+matchRequest.getDateOfMatch()+" "+matchRequest.getTimeOfMatch());
-            }
-        }
-        if(optionalTeam1.get().getPlayerList().size()<optionalTeam1.get().getFixedTeamSize()||optionalTeam2.get().getPlayerList().size()<optionalTeam2.get().getFixedTeamSize()){
-            throw new SufficientPlayersNotAvailableException("Player in teams are not sufficient for match");
         }
 
-        matches= MatchUtility.addTeamAndVenueToMatch(matches,optionalTeam1.get(),optionalTeam2.get(),optionalVenue.get());
-        Matches matches1 = matchRepository.save(matches);
-        TeamUtility.addMatchToTeam(matches1,optionalTeam1.get(),optionalTeam2.get());
-        optionalVenue.get().getMatchList().add(matches1);
-        return "Match "+matchRequest.getTeam1()+ " and "+matchRequest.getTeam2()+" is scheduled ";
+        if (optionalTeam1.get().getPlayerList().size() < optionalTeam1.get().getFixedTeamSize()
+                || optionalTeam2.get().getPlayerList().size() < optionalTeam2.get().getFixedTeamSize()) {
+            throw new SufficientPlayersNotAvailableException("Players in teams are not sufficient for the match");
+        }
+
+        matches = MatchUtility.addTeamAndVenueToMatch(matches, optionalTeam1.get(), optionalTeam2.get(), optionalVenue.get());
+        Matches savedMatch = matchRepository.save(matches);
+        TeamUtility.addMatchToTeam(savedMatch, optionalTeam1.get(), optionalTeam2.get());
+        optionalVenue.get().getMatchList().add(savedMatch);
+
+        return "Match " + matchRequest.getTeam1() + " and " + matchRequest.getTeam2() + " is scheduled";
     }
 }

@@ -3,6 +3,8 @@ package com.example.matchhub.transformers;
 import com.example.matchhub.dtos.requestdtos.VenueRequest;
 import com.example.matchhub.models.Venue;
 
+import java.util.ArrayList;
+
 public class VenueTransformer {
     public static Venue venueRequestToVenue(VenueRequest venueRequest){
         return Venue.builder()
@@ -13,6 +15,7 @@ public class VenueTransformer {
                 .capacity(venueRequest.getCapacity())
                 .isFloodLight(venueRequest.isFloodLight())
                 .locationUrl(venueRequest.getLocationUrl())
+                .matchList(new ArrayList<>())
                 .build();
     }
 }

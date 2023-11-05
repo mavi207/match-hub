@@ -3,6 +3,8 @@ package com.example.matchhub.transformers;
 import com.example.matchhub.dtos.requestdtos.PlayersRequest;
 import com.example.matchhub.models.Player;
 
+import java.util.ArrayList;
+
 public class PlayerTransformer {
     public static Player playerRequestToPlayer(PlayersRequest playersRequest){
         return Player.builder()
@@ -13,6 +15,7 @@ public class PlayerTransformer {
                 .weight(playersRequest.getWeight())
                 .numberOfMatchPlayed(0)
                 .country(playersRequest.getCountry())
+                .playerOfTheMatchesList(new ArrayList<>())
                 .build();
     }
 }
