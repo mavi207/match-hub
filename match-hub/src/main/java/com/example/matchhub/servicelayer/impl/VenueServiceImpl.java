@@ -28,7 +28,7 @@ public class VenueServiceImpl implements VenueService {
         Optional<Venue> venueOptional=venueRepository.findByLocationUrl(venue.getLocationUrl());
         if(!venueOptional.isPresent()){
             Venue savedVenue=venueRepository.save(venue);
-            return "Venue "+savedVenue.getVenueName()+" has been added to the database successfully";
+            return "Venue "+venueRequest.getVenueName()+" has been added to the database successfully";
         }else{
             throw new VenueAlreadyPresentException("Venue "+venue.getVenueName()+" is already present in the database");
         }
