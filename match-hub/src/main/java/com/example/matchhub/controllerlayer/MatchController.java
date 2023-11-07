@@ -60,4 +60,14 @@ public class MatchController {
         }
     }
 
+    @GetMapping("/past-matches")
+    public ResponseEntity pastMatch(){
+        try{
+            return new ResponseEntity(matchService.pastMatch(),HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.matchhub.servicelayer.impl;
 
 import com.example.matchhub.dtos.requestdtos.MatchCompletedRequest;
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
+import com.example.matchhub.dtos.responsedtos.DetailedMatchResponse;
 import com.example.matchhub.dtos.responsedtos.MatchDetailResponse;
 import com.example.matchhub.enums.MatchStatus;
 import com.example.matchhub.exceptions.*;
@@ -165,5 +166,14 @@ public class MatchServiceImpl implements MatchService {
         playerRepository.save(player);
 
         return "Match " + matchCompletedRequest.getMatchId() + " is completed with player " + player.getEmail();
+    }
+
+    public List<DetailedMatchResponse> pastMatch() {
+        List<Matches> matchesList = matchRepository.findByMatchStatus(MatchStatus.COMPLETED);
+        List<DetailedMatchResponse> detailedMatchResponseList = new ArrayList<>();
+        for(int i=0;i<matchesList.size();i++){
+            detailedMatchResponseList.add(matchToDetailedMatchResponse(matchesList.get(i)));
+        }
+        return detailedMatchResponseList;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.matchhub.repositorylayer;
 
+import com.example.matchhub.enums.MatchStatus;
 import com.example.matchhub.models.Matches;
 import com.example.matchhub.models.Venue;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface MatchRepository extends JpaRepository<Matches,Integer> {
     List<Matches> findByDateOfMatchAndTimeOfMatch(LocalDate dateOfMatch, LocalTime timeOfMatch);
 
     List<Matches> findByDateOfMatch(LocalDate dateOfMatch);
+
+    List<Matches> findByMatchStatus(MatchStatus matchStatus);
 }
