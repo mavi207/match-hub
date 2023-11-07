@@ -22,15 +22,15 @@ public class MatchTransformer {
     }
 
     public static MatchResponse matchToMatchResponse(Matches matches){
-        return MatchResponse.builder()
-                .id(matches.getId())
-                .dateOfMatch(String.valueOf(matches.getDateOfMatch()))
-                .timeOfMatch(String.valueOf(matches.getTimeOfMatch()))
-                .matchStatus(String.valueOf(matches.getMatchStatus()))
-                .team1(String.valueOf(matches.getTeamList().get(0)))
-                .team2(String.valueOf(matches.getTeamList().get(1)))
-                .venue(String.valueOf(matches.getVenue()))
-                .build();
+        MatchResponse matchResponse = new MatchResponse();
+        matchResponse.setId(matches.getId());
+        matchResponse.setDateOfMatch(matches.getDateOfMatch());
+        matchResponse.setTimeOfMatch(matches.getTimeOfMatch());
+        matchResponse.setMatchStatus(matches.getMatchStatus());
+        matchResponse.setTeam1(matches.getTeamList().get(0).getTeamName());
+        matchResponse.setTeam2(matches.getTeamList().get(1).getTeamName());
+        matchResponse.setVenue(String.valueOf(matches.getVenue()));
+        return matchResponse;
     }
 
     public static MatchDetailResponse matchToMatchDetailResponse(Matches matches){

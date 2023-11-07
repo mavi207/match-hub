@@ -6,7 +6,6 @@ import com.example.matchhub.exceptions.CapacityIsLessException;
 import com.example.matchhub.exceptions.VenueAlreadyPresentException;
 import com.example.matchhub.models.Venue;
 import com.example.matchhub.repositorylayer.VenueRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

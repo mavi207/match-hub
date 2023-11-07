@@ -3,7 +3,6 @@ package com.example.matchhub.servicelayer.impl;
 import com.example.matchhub.dtos.requestdtos.MatchCompletedRequest;
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
 import com.example.matchhub.dtos.responsedtos.MatchDetailResponse;
-import com.example.matchhub.dtos.responsedtos.MatchResponse;
 import com.example.matchhub.enums.MatchStatus;
 import com.example.matchhub.exceptions.*;
 import com.example.matchhub.models.Matches;
@@ -101,15 +100,16 @@ public class MatchServiceImpl implements MatchService {
     }
 
 
-    public List<MatchResponse> matchOnDate(LocalDate date) {
-        List<Matches> matchesList = matchRepository.findByDateOfMatch(date);
-
-        List<MatchResponse> matchResponseList=new ArrayList<>();
-        for(Matches matches: matchesList){
-            matchResponseList.add(matchToMatchResponse(matches));
+    public List<String> matchOnDate(String date) {
+        List<Matches> matchesList = matchRepository.findByDateOfMatch(LocalDate.parse(date));
+        if (matchesList.isEmpty()) {
+            return new ArrayList<>();
         }
-
-        return matchResponseList;
+        List<String> matchResponse = new ArrayList<>();
+        for (int i = 0; i < matchesList.size(); i++) {  // Change matchResponse.size() to matchesList.size()
+            matchResponse.add("Matches is between " + matchesList.get(i).getTeamList().get(0).getTeamName() + " and " + matchesList.get(i).getTeamList().get(1).getTeamName());
+        }
+        return matchResponse;
     }
 
     public MatchDetailResponse getMatchDetails(int id) {

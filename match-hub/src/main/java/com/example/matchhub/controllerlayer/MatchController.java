@@ -3,6 +3,7 @@ package com.example.matchhub.controllerlayer;
 import com.example.matchhub.dtos.requestdtos.MatchCompletedRequest;
 import com.example.matchhub.dtos.requestdtos.MatchRequest;
 import com.example.matchhub.dtos.responsedtos.MatchResponse;
+import com.example.matchhub.models.Matches;
 import com.example.matchhub.servicelayer.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,9 @@ public class MatchController {
     }
 
     @GetMapping("/matchondate")
-    public ResponseEntity matchOnDate(@RequestParam("date") LocalDate date){
-        List<MatchResponse> matchResponseList = matchService.matchOnDate(date);
-        return new ResponseEntity(matchResponseList,HttpStatus.ACCEPTED);
+    public ResponseEntity matchOnDate(@RequestParam("date") String date){
+        List<String> matchResponseList = matchService.matchOnDate(date);
+            return new ResponseEntity(matchResponseList, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/getmatchdetail")
